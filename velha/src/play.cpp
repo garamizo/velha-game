@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <ctime>
 
 class Velha {
 private:
@@ -22,6 +23,7 @@ public:
 	int Turn() {return turn;};
 	void Undo(int move);
 	int TestMove(int move);
+	void PrintStrategy();
 };
 
 Velha::Velha() {
@@ -98,6 +100,8 @@ int Velha::PlanSilly() {
 int Velha::PlanSmart() {
 	std::vector<int> good_moves, neutral_moves;
 
+	PrintStrategy();
+
 	for (int move = 0; move < 9; move++) {
 		int quality = TestMove(move);
 		if (quality > 0)
@@ -107,31 +111,54 @@ int Velha::PlanSmart() {
 	}
 
 	if (good_moves.size() > 0)
-		return good_moves[0];
+		return good_moves[rand() % good_moves.size()];
 	else if (neutral_moves.size() > 0)
-		return neutral_moves[0];
+		return neutral_moves[rand() % neutral_moves.size()];
 	else
 		return PlanSilly();
 }
 
 int Velha::TestMove(int move) {
+	// invalid (-2), unknown (0), win (1), lose (-1)
 	int me = Turn();
-	int test = 0;
 
-	bool valid = Play(move);
-	if (!valid)
-		return -1;
+	if (!Play(move))  // invalid
+		return -2;
 
-	if (State() == me)
-		test = 1;
-	else
-		for (int newmove = 0; newmove < 9; newmove++)
-			if (TestMove(newmove) > 0) {
-				test = -1;
+	int it = (me == 1 ? 2 : 1);
+	int quality = 0;
+	if (State() == me)  // immediate win
+		quality = 1;
+	else {
+		bool safe = false;
+		bool any_valid = false;
+		for (int newmove = 0; newmove < 9; newmove++) {
+			int new_quality = TestMove(newmove);
+			if (new_quality != -2)
+				any_valid = true;
+
+			if (new_quality == 1) {  // can lose next
+				quality = -1;
 				break;
 			}
+			if (new_quality == 0)
+				safe = true;
+		}
+		if (quality == 0 && safe == false && any_valid)  // will win later
+			quality = 1;
+	}
+
 	Undo(move);
-	return test;
+	return quality;
+}
+
+void Velha::PrintStrategy() {
+	printf("\n\t(Strategy for player %d)\n", turn);
+	for (int i = 0; i < 3; i++) {
+		printf("\t %2d | %2d | %2d\n", TestMove(3*i), TestMove(3*i+1), TestMove(3*i+2));
+		if (i < 2)
+			printf("\t--------------\n");
+	}
 }
 
 void Velha::Undo(int move) {
@@ -144,7 +171,8 @@ void Velha::Undo(int move) {
 
 int main(int argc, char* argv[]) {
 	
-	Velha game(2);
+	srand(std::time(0));
+	Velha game(1);
 
 	game.Print();
 	while (game.State() == 0) {
