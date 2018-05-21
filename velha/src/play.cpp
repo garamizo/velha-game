@@ -1,4 +1,3 @@
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,19 +26,26 @@ Velha::Velha() {
 }
 
 int Velha::Query() {
-	int move;
+	int input, move;
+
 	printf("Move: ");
-	scanf("%d", &move);
+	scanf("%d", &input);
+	move = 3*(2 - (input-1) / 3) + ((input-1) % 3);
 	while (v[move] > 0) {
 		printf("Invalid. Try again: ");
-		scanf("%d", &move);
+		scanf("%d", &input);
+		move = 3*(2 - (input-1) / 3) + ((input-1) % 3);
 	}
 	return move;
 }
 
 void Velha::Print() {
-	for (int i = 0; i < 3; i++)
-		printf("%d | %d | %d\n__________\n", m[i][0], m[i][1], m[i][2]);
+	printf("\nState: %d\nNext turn: %d\n", State(), turn);
+	for (int i = 0; i < 3; i++) {
+		printf(" %d | %d | %d\n", m[i][0], m[i][1], m[i][2]);
+		if (i < 2)
+			printf("-----------\n");
+	}
 }
 
 int Velha::State() {
@@ -63,8 +69,6 @@ int Velha::State() {
 }
 
 bool Velha::Play(int move) {
-	printf("Marking %d as %d\n", move, turn);
-
 	if (v[move] != 0)
 		return false;
 
@@ -91,9 +95,10 @@ int main(int argc, char* argv[]) {
 	
 	Velha game;
 
+	game.Print();
 	while (game.State() == 0) {
-		printf("Turn: %d\n", game.Turn());
 		int move;
+
 		if (game.Turn() == 1)
 			move = game.Query();
 		else
@@ -101,7 +106,6 @@ int main(int argc, char* argv[]) {
 
 		game.Play(move);
 		game.Print();
-		printf("State: %d\n", game.State());
 	}
 	if (game.State() < 0)
 		printf("Game over. Tie!\n");		
