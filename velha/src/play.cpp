@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 class Velha {
 private:
@@ -11,16 +12,24 @@ private:
 
 public:
 	Velha();
+	Velha(int start_player);
 	bool Play(int move);
-	int Plan();
+	int PlanSilly();
+	int PlanSmart();
 	int State();
 	void Print();
 	int Query();
 	int Turn() {return turn;};
+	void Undo(int move);
+	int TestMove(int move);
 };
 
 Velha::Velha() {
-	turn = 1;
+	Velha(1);
+}
+
+Velha::Velha(int start_player) {
+	turn = start_player;
 	for (int i = 0; i < 9; i++)
 		v[i] = 0;
 }
@@ -73,15 +82,12 @@ bool Velha::Play(int move) {
 		return false;
 
 	v[move] = turn;
+	turn = (turn == 1 ? 2 : 1);
 
-	if (State() == 0)
-		turn = (turn == 1 ? 2 : 1);
-	else
-		turn = -1;
 	return true;
 }
 
-int Velha::Plan() {
+int Velha::PlanSilly() {
 	int move = rand() % 9;
 	while (v[move] > 0)
 		move = rand() % 9;
@@ -89,11 +95,56 @@ int Velha::Plan() {
 	return move;
 }
 
+int Velha::PlanSmart() {
+	std::vector<int> good_moves, neutral_moves;
+
+	for (int move = 0; move < 9; move++) {
+		int quality = TestMove(move);
+		if (quality > 0)
+			good_moves.push_back(move);
+		else if (quality == 0)
+			neutral_moves.push_back(move);
+	}
+
+	if (good_moves.size() > 0)
+		return good_moves[0];
+	else if (neutral_moves.size() > 0)
+		return neutral_moves[0];
+	else
+		return PlanSilly();
+}
+
+int Velha::TestMove(int move) {
+	int me = Turn();
+	int test = 0;
+
+	bool valid = Play(move);
+	if (!valid)
+		return -1;
+
+	if (State() == me)
+		test = 1;
+	else
+		for (int newmove = 0; newmove < 9; newmove++)
+			if (TestMove(newmove) > 0) {
+				test = -1;
+				break;
+			}
+	Undo(move);
+	return test;
+}
+
+void Velha::Undo(int move) {
+
+	v[move] = 0;
+	turn = (turn == 1 ? 2 : 1);
+}
+
 
 
 int main(int argc, char* argv[]) {
 	
-	Velha game;
+	Velha game(2);
 
 	game.Print();
 	while (game.State() == 0) {
@@ -102,15 +153,15 @@ int main(int argc, char* argv[]) {
 		if (game.Turn() == 1)
 			move = game.Query();
 		else
-			move = game.Plan();
+			move = game.PlanSmart();
 
 		game.Play(move);
 		game.Print();
 	}
 	if (game.State() < 0)
-		printf("Game over. Tie!\n");		
+		printf("\nGame over. Tie!\n");		
 	else
-		printf("Game over. Player %d wins!\n", game.State());
+		printf("\nGame over. Player %d wins!\n", game.State());
 
 	return 0;
 }
