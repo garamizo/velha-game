@@ -4,9 +4,6 @@
 #include <vector>
 #include <ctime>
 
-Velha::Velha() {
-	Velha(1);
-}
 
 Velha::Velha(int start_player) {
 	srand(std::time(0));

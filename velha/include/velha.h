@@ -11,8 +11,11 @@ private:
 	};
 	int turn;  // -1 (over), 1 (player 1), 2 (player 2)
 
+	void Undo(int move);
+	Outcome TestMove(int move);
+
 public:
-	Velha();
+	Velha() { Velha(1); };
 	Velha(int start_player);
 	bool Play(int move);
 	int PlanSilly();
@@ -21,8 +24,6 @@ public:
 	void Print();
 	int Query();
 	int Turn() {return turn;};
-	void Undo(int move);
-	Outcome TestMove(int move);
 	void PrintStrategy();
 };
 

@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 		if (game.Turn() == 1)
 			move = game.Query();
 		else {
-			game.PrintStrategy();
+			// game.PrintStrategy();
 			move = game.PlanSmart();
 		}
 
