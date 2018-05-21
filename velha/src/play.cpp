@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "velha.h"
 
 int main(int argc, char* argv[]) {
 	
-	Velha game(1);
+	int start_player = 1;
+	if (argc == 2)
+		start_player = atof(argv[1]);
+
+	Velha game(start_player);
 
 	game.Print();
 	while (game.State() == 0) {

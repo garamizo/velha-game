@@ -130,7 +130,8 @@ Outcome Velha::TestMove(int move) {
 void Velha::PrintStrategy() {
 	printf("\n\t(Strategy for player %d)\n", turn);
 	for (int i = 0; i < 3; i++) {
-		printf("\t %2d | %2d | %2d\n", TestMove(3*i), TestMove(3*i+1), TestMove(3*i+2));
+		printf("\t %2d | %2d | %2d\n", TestMove(3*i)-1,
+			TestMove(3*i+1)-1, TestMove(3*i+2)-1);
 		if (i < 2)
 			printf("\t--------------\n");
 	}

@@ -1,7 +1,7 @@
 #ifndef _H_VELHA_
 #define _H_VELHA_
 
-enum Outcome {INVALID, LOSE, UNKNOWN, WIN};
+enum Outcome {INVALID, UNKNOWN, LOSE, WIN};
 
 class Velha {
 private:
@@ -17,7 +17,7 @@ public:
 	bool Play(int move);
 	int PlanSilly();
 	int PlanSmart();
-	int State();
+	int State(); // ongoing (0), tie (-1), p1 wins (1), p2 wins (2)
 	void Print();
 	int Query();
 	int Turn() {return turn;};
