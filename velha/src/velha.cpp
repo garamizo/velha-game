@@ -16,11 +16,11 @@ int Velha::Query() {
 	int input, move;
 
 	printf("Move: ");
-	scanf("%d", &input);
+	int tmp = scanf("%d", &input);
 	move = 3*(2 - (input-1) / 3) + ((input-1) % 3);
 	while (v[move] > 0) {
 		printf("Invalid. Try again: ");
-		scanf("%d", &input);
+		tmp = scanf("%d", &input);
 		move = 3*(2 - (input-1) / 3) + ((input-1) % 3);
 	}
 	return move;
