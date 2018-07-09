@@ -5,13 +5,25 @@ project(velha_ros)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  genmsg
+  actionlib
+  actionlib_msgs
+)
+
+add_action_files(
+  DIRECTORY action
+  FILES Move.action
+)
+
+generate_messages(
+  DEPENDENCIES actionlib_msgs std_msgs  # Or other packages containing msgs
 )
 
 catkin_package(
  # INCLUDE_DIRS include
 #  LIBRARIES velha
 #  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+  DEPENDS actionlib_msgs
 )
 
 include_directories(

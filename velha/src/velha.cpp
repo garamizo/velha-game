@@ -1,9 +1,4 @@
 #include "velha.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
-#include <ctime>
-
 
 Velha::Velha(int start_player) {
 	srand(std::time(0));
@@ -138,4 +133,10 @@ void Velha::Undo(int move) {
 
 	v[move] = 0;
 	turn = (turn == 1 ? 2 : 1);
+}
+
+void Velha::Copy(std::vector<int>& cp) {
+	cp.resize(9);
+	for (int i = 0; i < 9; i++)
+		cp[i] = v[i];
 }
