@@ -1,0 +1,4 @@
+int32[] fields
+int32 player
+---
+int32 index

@@ -1,6 +1,11 @@
 #ifndef _H_VELHA_
 #define _H_VELHA_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+#include <ctime>
+
 enum Outcome {INVALID, UNKNOWN, LOSE, WIN};
 
 class Velha {
@@ -17,6 +22,7 @@ private:
 public:
 	Velha() { Velha(1); };
 	Velha(int start_player);
+	Velha(std::vector<int> _v, int _turn);
 	bool Play(int move);
 	int PlanSilly();
 	int PlanSmart();
@@ -25,6 +31,7 @@ public:
 	int Query();
 	int Turn() {return turn;};
 	void PrintStrategy();
+	void Copy(std::vector<int>& cp);
 };
 
 #endif

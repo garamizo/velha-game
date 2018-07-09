@@ -5,13 +5,24 @@ project(velha_ros)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  genmsg
+  message_generation
+)
+
+add_service_files(
+  FILES
+  MakeMove.srv
+)
+
+generate_messages(
+  DEPENDENCIES std_msgs  # Or other packages containing msgs
 )
 
 catkin_package(
  # INCLUDE_DIRS include
 #  LIBRARIES velha
-#  CATKIN_DEPENDS roscpp
-#  DEPENDS system_lib
+ CATKIN_DEPENDS message_runtime
+  # DEPENDS 
 )
 
 include_directories(
@@ -25,11 +36,21 @@ add_library(velha
   ../velha/src/velha.cpp
 )
 
-add_executable(robot_play src/robot_play.cpp)
+add_executable(robot_player src/robot_player.cpp)
 
-add_dependencies(robot_play ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(robot_player ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(robot_play
+target_link_libraries(robot_player
+  ${catkin_LIBRARIES}
+  velha
+)
+
+
+add_executable(robot_server src/robot_server.cpp)
+
+add_dependencies(robot_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(robot_server
   ${catkin_LIBRARIES}
   velha
 )
