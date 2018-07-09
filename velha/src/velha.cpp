@@ -7,6 +7,13 @@ Velha::Velha(int start_player) {
 		v[i] = 0;
 }
 
+Velha::Velha(std::vector<int> _v, int _turn) {
+	srand(std::time(0));
+	turn = _turn;
+	for (int i = 0; i < 9; i++)
+		v[i] = _v[i];
+}
+
 int Velha::Query() {
 	int input, move;
 

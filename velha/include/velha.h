@@ -22,6 +22,7 @@ private:
 public:
 	Velha() { Velha(1); };
 	Velha(int start_player);
+	Velha(std::vector<int> _v, int _turn);
 	bool Play(int move);
 	int PlanSilly();
 	int PlanSmart();
