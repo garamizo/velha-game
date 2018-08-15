@@ -1,0 +1,4 @@
+cd velha
+mkdir build
+cd build
+cmake ..

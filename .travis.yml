@@ -1,15 +1,1 @@
 language: cpp
-
-install: true
-
-compiler:
-  - gcc
-  - clang
-
-before_script:
-  - cd velha
-  - mkdir build
-  - cd build
-  - cmake ..
-
-script: make && make test
