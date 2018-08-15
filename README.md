@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.com/garamizo/velha-game.svg?branch=travis)](https://travis-ci.com/garamizo/velha-game)
-
-# velha
+# velha [![Build Status](https://travis-ci.com/garamizo/velha-game.svg?branch=travis)](https://travis-ci.com/garamizo/velha-game)
 Tic tac toe game against an invencible oponent
 
 ## Algorithm
