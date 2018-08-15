@@ -3,6 +3,6 @@ language: cpp
 install:
   cd velha
   mkdir build
+  cd build
   cmake ..
   make
-  
