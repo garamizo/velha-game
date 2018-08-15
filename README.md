@@ -1,4 +1,4 @@
-# velha
+# velha [![Build Status](https://travis-ci.com/garamizo/velha-game.svg?branch=travis)](https://travis-ci.com/garamizo/velha-game)
 Tic tac toe game against an invencible oponent
 
 ## Algorithm
@@ -14,6 +14,7 @@ Clone repository and compile source with cmake
 git clone https://github.com/garamizo/velha-game.git
 cd velha-game/velha
 mkdir build
+cd build
 cmake ..
 make
 ```
